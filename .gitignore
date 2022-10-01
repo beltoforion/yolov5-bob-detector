@@ -1,0 +1,6 @@
+
+bob-detector/labels/train.cache
+bob-detector/labels/train.cache.npy
+bob-detector/_validation/*
+bob-detector/images/train/*
+bob-detector/labels/train/*
