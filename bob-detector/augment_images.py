@@ -4,6 +4,7 @@ import pathlib
 import hashlib
 import numpy as np
 import csv
+import shutil
 
 script_dir : str = pathlib.Path(__file__).parent.resolve()
 annotated_originals_dir = script_dir / '_annotated_originals'
@@ -46,8 +47,6 @@ def rotate_image(mat, angle):
 
 def copy_annotation_file(annot_file, outfile, angle, image):
     h, w, c = image.shape
-
-    dialects = csv.list_dialects()
 
     # read the annotation file
     with open(str(annot_file), 'r', newline='') as csv_in_file:
@@ -98,6 +97,25 @@ def copy_and_augment_file(file):
         outfile = outfile.with_suffix('.txt')
         copy_annotation_file(file.with_suffix('.txt'), outfile, angle, img)
 
+
+def copy_file(file):
+    md5 = get_md5_hash(str(file)) 
+    outfile = pathlib.Path(script_dir) / 'images' / 'train' / f'_bck_{md5}{file.suffix}'
+
+    print(f"        Creating background file: {outfile}")
+    shutil.copyfile(str(file), outfile)
+
+def copy_background_images(folder):
+    global script_dir
+    print(f'scanning {folder}:')
+    for file in folder.iterdir():
+        # iterate over all jpegs
+        if file.suffix != '.jpg' and file.suffix != '.JPG' and file.suffix != '.jpeg':
+            continue
+
+        copy_file(file)
+
+
 def process_folder(folder):
     global script_dir
 
@@ -131,15 +149,18 @@ def main():
     
     for dirpath, dirs, files in os.walk(annotated_originals_dir):
         for dir in dirs:
+            folder = pathlib.Path(dirpath) / dir
             if dir.startswith('_'):
                 print(f'skipping folder \'{dir}\'')
                 continue
-
-            folder = pathlib.Path(dirpath) / dir
-            process_folder(folder)
+            elif 'background' in dir:
+                print(f'copying background images from \'{dir}\':')
+                copy_background_images(folder)
+                continue
+            else:
+                print(f'processing folder \'{dir}\':')
+                process_folder(folder)
             
-#        for file in files:
-#            print(os.path.join(subdir, file))
 
 if __name__ == "__main__":
     try:
