@@ -16,4 +16,4 @@ python ../yolov5/train.py --img 640 --epochs 4 --data bob-detector.yaml --weight
 
 "Testing detector"
 Remove-Item -Path ../yolov5/runs/detect/bob-detector -Force -Recurse -erroraction 'silentlycontinue'
-python ../yolov5/detect.py --name 'bob-detector' --source ../yolov5-bob-detector/bob-detector/images/test/ --weights ./runs/train/bob-detector/weights/best.pt
+python ../yolov5/detect.py --name 'bob-detector' --source ./images/test/ --weights ../yolov5/runs/train/bob-detector/weights/best.pt
