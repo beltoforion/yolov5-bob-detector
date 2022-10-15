@@ -4,3 +4,4 @@ bob-detector/images/train/*
 bob-detector/images/test/*
 bob-detector/labels/train/*
 bob-detector/labels/test/*
+yolov5s.pt
