@@ -12,7 +12,7 @@ python ./copy_and_augment_images.py -f ./bob-detector
 
 "Training object detector"
 Remove-Item -Path ../yolov5/runs/train/bob-detector -Force -Recurse -erroraction 'silentlycontinue'
-python ../yolov5/train.py --data bob-detector.yaml --img 640 --epochs 4 --data bob-detector.yaml --weights yolov5s.pt --name 'bob-detector'
+python ../yolov5/train.py --workers 8 --data bob-detector.yaml --img 640 --epochs 300 --data bob-detector.yaml --weights yolov5s.pt --name 'bob-detector'
 
 "Testing detector"
 Remove-Item -Path ../yolov5/runs/detect/bob-detector -Force -Recurse -erroraction 'silentlycontinue'
