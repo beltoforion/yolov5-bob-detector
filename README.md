@@ -2,3 +2,6 @@
 
 # yolov5-bob-detector
 This is an training image set accompanying an article on training a custom YOLO model on my web page.
+
+The german article explaining its usage can be found here:
+https://beltoforion.de/de/bob-detektor/
